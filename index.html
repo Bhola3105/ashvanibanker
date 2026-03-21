@@ -1,0 +1,240 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ashvani Finance</title>
+
+<style>
+
+body{font-family:Arial;margin:0;background:#f5f7fb;}
+
+header{background:#0b3d91;color:white;text-align:center;padding:20px;}
+
+nav{background:#072b63;padding:10px;text-align:center;}
+nav a{color:white;margin:10px;text-decoration:none;}
+
+.hero{
+background:linear-gradient(135deg,#0b3d91,#2a6ef0);
+color:white;
+text-align:center;
+padding:80px 20px;
+}
+
+.apply-btn{
+background:white;color:#0b3d91;padding:10px 20px;border-radius:5px;
+text-decoration:none;
+}
+
+section{padding:40px;text-align:center;}
+
+input{
+padding:10px;
+margin:5px;
+width:200px;
+}
+
+button{
+padding:10px 20px;
+background:#2a6ef0;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+.apply-box{
+background:white;
+padding:20px;
+width:300px;
+margin:auto;
+border-radius:10px;
+}
+
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:white;
+padding:20px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h2>Ashvani Finance</h2>
+<p>Personal Loan Consultant</p>
+</header>
+
+<nav>
+<a href="#">Home</a>
+<a href="#emi">EMI</a>
+<a href="#eligibility">Eligibility</a>
+<a href="#apply">Apply</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<h1>Instant Personal Loans</h1>
+<p>Quick approvals from top banks</p>
+<a class="apply-btn" href="#apply">Apply Now</a>
+</section>
+
+<!-- EMI -->
+<section id="emi">
+<h2>EMI Calculator</h2>
+
+<input type="number" id="loan" placeholder="Loan Amount">
+<input type="number" id="rate" placeholder="Interest Rate">
+<input type="number" id="months" placeholder="Months">
+
+<br><br>
+
+<button onclick="calcEMI()">Calculate EMI</button>
+
+<p id="emi_result"></p>
+
+</section>
+
+<!-- ELIGIBILITY -->
+<section id="eligibility">
+
+<h2>Loan Eligibility Calculator</h2>
+
+<input type="number" id="eligIncome" placeholder="Monthly Income">
+<input type="number" id="existingEmi" placeholder="Existing EMI">
+
+<br><br>
+
+<button onclick="calculateEligibility()">Check Eligibility</button>
+
+<p id="eligibilityResult"></p>
+
+</section>
+
+<!-- APPLY -->
+<section id="apply">
+
+<div class="apply-box">
+
+<h2>Apply for Loan</h2>
+
+<input type="text" id="name" placeholder="Full Name"><br>
+<input type="tel" id="mobile" placeholder="Mobile Number"><br>
+<input type="text" id="city" placeholder="City"><br>
+<input type="number" id="applyIncome" placeholder="Monthly Income"><br>
+<input type="number" id="amount" placeholder="Loan Amount"><br>
+
+<p id="formError" style="color:red;"></p>
+
+<button onclick="submitApplication()">Submit</button>
+
+</div>
+
+</section>
+
+<!-- POPUP -->
+<div id="successPopup" class="popup">
+<div class="popup-content">
+<h3>Application Submitted</h3>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
+<script>
+
+/* EMI */
+function calcEMI(){
+
+let P=document.getElementById("loan").value;
+let r=document.getElementById("rate").value/12/100;
+let n=document.getElementById("months").value;
+
+if(!P||!r||!n){
+alert("Enter all values");
+return;
+}
+
+let emi=(P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+
+document.getElementById("emi_result").innerText="EMI ₹ "+Math.round(emi);
+
+}
+
+/* ELIGIBILITY */
+function calculateEligibility(){
+
+let income=document.getElementById("eligIncome").value;
+let emi=document.getElementById("existingEmi").value;
+
+let eligible=(income*0.6)-emi;
+
+if(eligible<0){eligible=0;}
+
+document.getElementById("eligibilityResult").innerText=
+"Eligible EMI ₹ "+eligible;
+
+}
+
+/* APPLY FORM */
+function submitApplication(){
+
+let name=document.getElementById("name").value.trim();
+let mobile=document.getElementById("mobile").value.trim();
+let city=document.getElementById("city").value.trim();
+let income=document.getElementById("applyIncome").value.trim();
+let amount=document.getElementById("amount").value.trim();
+
+let error=document.getElementById("formError");
+
+if(!/^[A-Za-z ]+$/.test(name)){
+error.innerText="Invalid Name";return;
+}
+
+if(!/^[0-9]{10}$/.test(mobile)){
+error.innerText="Invalid Mobile";return;
+}
+
+if(!/^[A-Za-z ]+$/.test(city)){
+error.innerText="Invalid City";return;
+}
+
+if(isNaN(income)||income<=0){
+error.innerText="Invalid Income";return;
+}
+
+if(isNaN(amount)||amount<=0){
+error.innerText="Invalid Amount";return;
+}
+
+error.innerText="";
+
+document.getElementById("successPopup").style.display="flex";
+
+}
+
+function closePopup(){
+document.getElementById("successPopup").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
+```
